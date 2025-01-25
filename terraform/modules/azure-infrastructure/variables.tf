@@ -11,13 +11,10 @@ variable "infra_config" {
                 name                                          = string
                 address_space                                 = list(string)
             })
-            private_dns_zone_config = object({
-                name = string
-            })
             private_dns_zone_virtual_network_link_config = object({
                 name       = string
             })  
-            subnet_hub_config             = object({
+            subnet_aks_config             = object({
                 name                                          = string
                 address_prefixes                              = list(string)
                 service_endpoints                             = list(string)
@@ -53,11 +50,6 @@ variable "infra_config" {
                 service_cidr       = string
                 dns_service_ip     = string
                 tags               = map(string)
-            })
-            acr_config = object({
-                name          = string
-                sku           = string
-                admin_enabled = bool
             })
             vm_mgmt_config              = object({
                 name                                          = string

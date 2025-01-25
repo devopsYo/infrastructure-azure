@@ -1,5 +1,5 @@
 variable "config" {
-    type      = object({
+    type      = object({ infra_config = object({
         env                               = string
         plaque_list      = list(object({
             rg_config                    = object({
@@ -11,13 +11,10 @@ variable "config" {
                 name                                          = string
                 address_space                                 = list(string)
             })    
-            private_dns_zone_config = object({
-                name = string
-            })
             private_dns_zone_virtual_network_link_config = object({
                 name       = string
             })
-            subnet_hub_config             = object({
+            subnet_aks_config             = object({
                 name                                          = string
                 address_prefixes                              = list(string)
                 service_endpoints                             = list(string)
@@ -196,5 +193,14 @@ variable "config" {
             })       
         }))         
     })
+    argocd_config = object({
+        name         = string
+        repository   = string
+        chart        = string
+        version      = string
+        namespace        = string  
+        create_namespace = bool
+        set_values   = map(string)
+    })})
 }
 

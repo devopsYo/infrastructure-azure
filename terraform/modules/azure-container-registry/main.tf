@@ -2,16 +2,16 @@ data "azurerm_subscription" "current" {
 }
 
 resource "azurerm_user_assigned_identity" "UserManagedIdentity" {
-  name                = "${var.container_registry_config.project_name}-pull-umi"
-  location            = var.container_registry_config.location 
-  resource_group_name = var.container_registry_config.resource_group_name
+  name                = "${var.container_registry_config.name}-pull-umi"
+  location            = var.rg_config.location 
+  resource_group_name = "${var.rg_config.prefix}-${var.rg_config.name}"
 }
 
 
 resource "azurerm_container_registry" "ContainerRegistry" {
-  name                = "${var.container_registry_config.project_name}CR"
-  resource_group_name = var.container_registry_config.resource_group_name
-  location            = var.container_registry_config.location
+  name                = var.container_registry_config.name
+  resource_group_name = "${var.rg_config.prefix}-${var.rg_config.name}"
+  location            = var.rg_config.location
   sku                 = var.container_registry_config.sku
   admin_enabled       = var.container_registry_config.admin_enabled
 }
@@ -27,8 +27,8 @@ module "ACRPrivateEndpoint" {
   }
   rg_config                                  = var.infra_config.plaque_list[count.index].rg_config
 }
-*/
-/*
+
+
 resource "azurerm_role_assignment" "AcrPull" {
   scope                = azurerm_container_registry.ContainerRegistry.id
   role_definition_name = "AcrPull"
@@ -41,4 +41,4 @@ resource "azurerm_role_assignment" "AcrPush" {
   role_definition_name = "AcrPush"
   principal_id         = data.azuread_service_principal.ServicePrincipalACR.object_id
 }
-/*
+*/
